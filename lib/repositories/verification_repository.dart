@@ -15,23 +15,31 @@ class VerificationRepository {
       if (token == null) {
         throw ApiException("Authentication token is missing");
       }
-      
+
       // Add the token to headers
       final headers = _apiService.addAuthToken({}, token);
-      
+
       // Make the request with auth headers
       final response = await _apiService.get(
         '/api/admin/verifications',
         headers: headers,
       );
-      
-      if (response['success'] == true && response['verification_requests'] != null) {
-        final requests = (response['verification_requests'] as List)
-            .map((item) => VerificationRequest.fromJson(item))
-            .toList();
-        return requests;
+
+      if (response['success'] == true) {
+        // Check if verification_requests exists and is not null
+        if (response['verification_requests'] != null) {
+          final requests = (response['verification_requests'] as List)
+              .map((item) => VerificationRequest.fromJson(item))
+              .toList();
+          return requests;
+        } else {
+          // Return empty list instead of throwing an exception
+          return [];
+        }
       } else {
-        throw ApiException('Failed to get verification requests');
+        // Only throw exception for actual API failures
+        throw ApiException(
+            response['message'] ?? 'Failed to get verification requests');
       }
     } on ApiException {
       rethrow;
@@ -47,10 +55,10 @@ class VerificationRepository {
       if (token == null) {
         throw ApiException("Authentication token is missing");
       }
-      
+
       // Add the token to headers
       final headers = _apiService.addAuthToken({}, token);
-      
+
       // Make the request with auth headers
       final response = await _apiService.post(
         '/api/admin/verify',
@@ -60,7 +68,7 @@ class VerificationRepository {
           'approve': approve,
         },
       );
-      
+
       return response['success'] == true;
     } on ApiException {
       rethrow;

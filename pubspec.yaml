@@ -60,6 +60,8 @@ dependencies:
   camera:
   flutter_secure_storage:
   freezed_annotation:
+  flutter_local_notifications:
+  
 
 
 
@@ -74,6 +76,7 @@ dev_dependencies:
     sdk: flutter
   build_runner:
   freezed:
+  flutter_launcher_icons:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -85,6 +88,10 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -95,6 +102,7 @@ flutter:
 
   assets:
       - .env
+      - assets/sounds/alert.mp3
 
   # To add assets to your application, add an assets section, like this:
   # assets:
